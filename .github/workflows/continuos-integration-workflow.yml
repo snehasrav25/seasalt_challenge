@@ -28,5 +28,5 @@ jobs:
     - name: Lint with flake8
       uses: py-actions/flake8@v1
     - name: run model  
-      run: python my_script.py
+      run:  python my_script.py
        
