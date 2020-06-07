@@ -1,18 +1,11 @@
 """Demo PyTorch MNIST model for the Seasalt.ai technical challenge."""
-
-import os
-
-import numpy as np
-
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 
 from torchvision import datasets, transforms
-from torchvision.datasets import ImageFolder
-print(newvariable)
+
 class Net(nn.Module):
 
     def __init__(self):
@@ -68,7 +61,6 @@ train_loader = torch.utils.data.DataLoader(
                            transforms.ToTensor()])),
         batch_size=16, shuffle=True)
 
-
 test_loader = torch.utils.data.DataLoader(
         datasets.MNIST('./input',
                        train=False,
@@ -83,7 +75,6 @@ optimizer = optim.SGD(model.parameters(), lr=0.01)
 
 for epoch in range(1, 2):
     train(model, torch.device("cpu"), train_loader, optimizer, epoch)
-
-test(model, torch.device("cpu"), train_loader, optimizer, epoch)
+    test(model, torch.device("cpu"), test_loader, optimizer, epoch)
 
 torch.save(model.state_dict(), 'mnist_model.pth')
