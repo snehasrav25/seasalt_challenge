@@ -12,7 +12,6 @@ import torch.optim as optim
 
 from torchvision import datasets, transforms
 from torchvision.datasets import ImageFolder
-print(newvariable)
 class Net(nn.Module):
 
     def __init__(self):
