@@ -3,17 +3,15 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-
+from torch.utils.data import random_split
 from torchvision import datasets, transforms
-
-
 class Net(nn.Module):
 
     def __init__(self):
         super(Net, self).__init__()
         self.conv1 = nn.Conv2d(1, 20, 5, 1)
         self.conv2 = nn.Conv2d(20, 50, 5, 1)
-        self.fc1 = nn.Linear(4*4*50, 500)
+        self.fc1 = nn.Linear(4 * 4 * 50, 500)
         self.fc2 = nn.Linear(500, 10)
 
     def forward(self, x):
@@ -21,7 +19,7 @@ class Net(nn.Module):
         x = F.max_pool2d(x, 2, 2)
         x = F.relu(self.conv2(x))
         x = F.max_pool2d(x, 2, 2)
-        x = x.view(-1, 4*4*50)
+        x = x.view(-1, 4 * 4 * 50)
         x = F.relu(self.fc1(x))
         x = self.fc2(x)
         return F.log_softmax(x, dim=1)
@@ -51,28 +49,30 @@ def test(model, device, loader, optimizer, epoch):
             output = model(data)
             test_loss += F.nll_loss(output, target, reduction='sum').item()
             pred = output.argmax(dim=1, keepdim=True)
-            correct += pred.eq(target.view_as(pred))\
+            correct += pred.eq(target.view_as(pred)) \
                 .sum().item()
     test_loss /= len(loader.dataset)
     print('Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)'.format(
-        test_loss, correct, len(loader.dataset), 100. * correct/len(loader.dataset)))
+        test_loss, correct, len(loader.dataset), 100. * correct / len(loader.dataset)))
 
+
+main_dataset = datasets.MNIST(root='./input', download=True, transform=transforms.Compose([
+    transforms.ToTensor()]))
+train_data, test_data = random_split(main_dataset, [55000, 5000])
 
 train_loader = torch.utils.data.DataLoader(
-        datasets.MNIST(root='./input',
-                       train=True,
-                       download=True,
-                       transform=transforms.Compose([
-                           transforms.ToTensor()])),
-        batch_size=16, shuffle=True)
+    dataset=train_data,
+    batch_size=64,
+    num_workers=0,
+    shuffle=True
+)
 
 test_loader = torch.utils.data.DataLoader(
-        datasets.MNIST('./input',
-                       train=False,
-                       download=True,
-                       transform=transforms.Compose([
-                           transforms.ToTensor()])),
-        batch_size=16, shuffle=True)
+    dataset=test_data,
+    batch_size=64,
+    num_workers=0,
+    shuffle=True
+)
 
 model = Net().to(torch.device("cpu"))
 
