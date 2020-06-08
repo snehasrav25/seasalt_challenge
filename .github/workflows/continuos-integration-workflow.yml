@@ -40,11 +40,11 @@ jobs:
       run: python main.py
     - name: upload
       uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --acl public-read --delete
-        env:
-          AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
-          AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-          AWS_S3_BUCKET: ${{ secrets.AWS_BUCKET_NAME}}
-          #SOURCE_DIR: 'mnist_model.pth' 
-          AWS_REGION: 'us-west-2'
+      with:
+        args: --acl public-read --delete
+      env:
+        AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+        AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+        AWS_S3_BUCKET: ${{ secrets.AWS_BUCKET_NAME}}
+        SOURCE_DIR: 'output/mnist_model.pth' 
+        AWS_REGION: 'us-west-2'
