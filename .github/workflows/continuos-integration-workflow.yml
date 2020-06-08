@@ -28,7 +28,7 @@ jobs:
       uses: py-actions/flake8@v1
   run:
     runs-on: ubuntu-latest
-    - needs: build
+    needs: build
     steps:
     - name: Run python file
       run: python main.py    
