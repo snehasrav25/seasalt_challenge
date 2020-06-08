@@ -5,6 +5,8 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torch.utils.data import random_split
 from torchvision import datasets, transforms
+
+
 class Net(nn.Module):
 
     def __init__(self):
@@ -53,11 +55,15 @@ def test(model, device, loader, optimizer, epoch):
                 .sum().item()
     test_loss /= len(loader.dataset)
     print('Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)'.format(
-        test_loss, correct, len(loader.dataset), 100. * correct / len(loader.dataset)))
+        test_loss, correct, len(loader.dataset),
+        100. * correct / len(loader.dataset)))
 
 
-main_dataset = datasets.MNIST(root='./input', download=True, transform=transforms.Compose([
-    transforms.ToTensor()]))
+transform1 = transforms.Compose([transforms.ToTensor()])
+main_dataset = datasets.MNIST(root='./input',
+                              download=True,
+                              transform=transform1)
+
 train_data, test_data = random_split(main_dataset, [55000, 5000])
 
 train_loader = torch.utils.data.DataLoader(
