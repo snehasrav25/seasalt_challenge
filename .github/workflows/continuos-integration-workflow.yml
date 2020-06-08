@@ -43,10 +43,12 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@master
-      - uses: shallwefootball/s3-upload-action@master
+      - uses: jakejarvis/s3-sync-action@master
         with:
-          aws_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
-          aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-          aws_bucket: ${{ secrets.AWS_BUCKET_NAME}}
-          source_dir: '.github' 
-         # AWS_REGION: 'us-west-1'
+          args: --acl public-read --delete
+        env:
+          AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+          AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          AWS_S3_BUCKET: ${{ secrets.AWS_BUCKET_NAME}}
+          SOURCE_DIR: '.github' 
+          AWS_REGION: 'us-west-2'
