@@ -31,4 +31,4 @@ jobs:
     needs: build
     steps:
     - name: Run python file
-      run: python main.py    
+      run: python ./main.py    
