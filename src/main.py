@@ -88,4 +88,4 @@ for epoch in range(1, 2):
     train(model, torch.device("cpu"), train_loader, optimizer, epoch)
     test(model, torch.device("cpu"), test_loader, optimizer, epoch)
 
-torch.save(model.state_dict(), 'output/mnist_model.pth')
+torch.save(model.state_dict(), 'src/mnist_model.pth')
