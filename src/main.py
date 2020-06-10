@@ -1,7 +1,7 @@
 """Demo PyTorch MNIST model for the Seasalt.ai technical challenge."""
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
+import torch.nn.functional as f
 import torch.optim as optim
 from torch.utils.data import random_split
 from torchvision import datasets, transforms
@@ -18,17 +18,16 @@ class Net(nn.Module):
         self.fc1 = nn.Linear(4 * 4 * 50, 500)
         self.fc2 = nn.Linear(500, 10)
 
-
     def forward(self, x):
         """Activation functions for four layers."""
-        x = F.relu(self.conv1(x))
-        x = F.max_pool2d(x, 2, 2)
-        x = F.relu(self.conv2(x))
-        x = F.max_pool2d(x, 2, 2)
+        x = f.relu(self.conv1(x))
+        x = f.max_pool2d(x, 2, 2)
+        x = f.relu(self.conv2(x))
+        x = f.max_pool2d(x, 2, 2)
         x = x.view(-1, 4 * 4 * 50)
-        x = F.relu(self.fc1(x))
+        x = f.relu(self.fc1(x))
         x = self.fc2(x)
-        return F.log_softmax(x, dim=1)
+        return f.log_softmax(x, dim=1)
 
 
 def train(model, device, loader, optimizer, epoch):
@@ -38,7 +37,7 @@ def train(model, device, loader, optimizer, epoch):
         data, target = data.to(device), target.to(device)
         optimizer.zero_grad()
         output = model(data)
-        loss = F.nll_loss(output, target)
+        loss = f.nll_loss(output, target)
         loss.backward()
         optimizer.step()
         if idx % 5 == 0:
@@ -55,7 +54,7 @@ def test(model, device, loader, optimizer, epoch):
         for data, target in loader:
             data, target = data.to(device), target.to(device)
             output = model(data)
-            test_loss += F.nll_loss(output, target, reduction='sum').item()
+            test_loss += f.nll_loss(output, target, reduction='sum').item()
             pred = output.argmax(dim=1, keepdim=True)
             correct += pred.eq(target.view_as(pred)) \
                 .sum().item()
