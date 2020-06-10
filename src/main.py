@@ -11,6 +11,7 @@ class Net(nn.Module):
     """Build the network with four layers."""
 
     def __init__(self):
+        """Init Definition."""
         super(Net, self).__init__()
         self.conv1 = nn.Conv2d(1, 20, 5, 1)
         self.conv2 = nn.Conv2d(20, 50, 5, 1)
@@ -19,8 +20,7 @@ class Net(nn.Module):
 
 
     def forward(self, x):
-        """Defining the activation functions for four layers."""
-
+        """Activation functions for four layers."""
         x = F.relu(self.conv1(x))
         x = F.max_pool2d(x, 2, 2)
         x = F.relu(self.conv2(x))
@@ -33,7 +33,6 @@ class Net(nn.Module):
 
 def train(model, device, loader, optimizer, epoch):
     """Train the network."""
-
     model.train()
     for idx, (data, target) in enumerate(loader):
         data, target = data.to(device), target.to(device)
@@ -49,7 +48,6 @@ def train(model, device, loader, optimizer, epoch):
 
 def test(model, device, loader, optimizer, epoch):
     """Test the network."""
-    
     model.eval()
     test_loss = 0
     correct = 0
