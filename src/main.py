@@ -6,9 +6,10 @@ import torch.optim as optim
 from torch.utils.data import random_split
 from torchvision import datasets, transforms
 
-
+"""Build the network. """
 class Net(nn.Module):
 
+    """Build the network with four layers. """
     def __init__(self):
         super(Net, self).__init__()
         self.conv1 = nn.Conv2d(1, 20, 5, 1)
@@ -16,6 +17,7 @@ class Net(nn.Module):
         self.fc1 = nn.Linear(4 * 4 * 50, 500)
         self.fc2 = nn.Linear(500, 10)
 
+    """Defining the activation functions for four layers. """
     def forward(self, x):
         x = F.relu(self.conv1(x))
         x = F.max_pool2d(x, 2, 2)
@@ -26,7 +28,7 @@ class Net(nn.Module):
         x = self.fc2(x)
         return F.log_softmax(x, dim=1)
 
-
+"""Train the network. """
 def train(model, device, loader, optimizer, epoch):
     model.train()
     for idx, (data, target) in enumerate(loader):
@@ -40,7 +42,7 @@ def train(model, device, loader, optimizer, epoch):
             print('Train epoch {} ({:.0f}%)\t Loss: {:.6f}'.format(
                 epoch, 100. * idx / len(train_loader), loss.item()))
 
-
+"""Test the network. """
 def test(model, device, loader, optimizer, epoch):
     model.eval()
     test_loss = 0
@@ -86,6 +88,6 @@ optimizer = optim.SGD(model.parameters(), lr=0.01)
 
 for epoch in range(1, 2):
     train(model, torch.device("cpu"), train_loader, optimizer, epoch)
-    test(model, torch.device("cpu"), test_loader, optimizer, epoch)
 
-torch.save(model.state_dict(), 'src/mnist_model.pth')
+test(model, torch.device("cpu"), train_loader, optimizer, epoch)
+torch.save(model.state_dict(), 'mnist_model.pth')
