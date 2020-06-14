@@ -3,7 +3,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as f
 import torch.optim as optim
-from torch.utils.data import random_split
 from torchvision import datasets, transforms
 import sys
 
@@ -35,8 +34,8 @@ def train(model, device, loader, optimizer, epoch):
     """Train the network."""
     model.train()
     for idx, (data, target) in enumerate(loader):
-        idx=idx+1
-        if idx>5 and sys.argv[0]=="Test":
+        idx = idx+1
+        if idx > 5 and sys.argv[0] == "Test":
             break
         data, target = data.to(device), target.to(device)
         optimizer.zero_grad()
@@ -56,8 +55,8 @@ def test(model, device, loader, optimizer, epoch):
     correct = 0
     with torch.no_grad():
         for idx1, data, target in loader:
-            idx1=idx1+1
-            if idx1>5 and sys.argv[0]=="Test":
+            idx1 = idx1+1
+            if idx1 > 5 and sys.argv[0] == "Test":
                 break
             data, target = data.to(device), target.to(device)
             output = model(data)
@@ -69,6 +68,7 @@ def test(model, device, loader, optimizer, epoch):
     print('Average loss: {:.4f}, Accuracy: {}/{} ({:.0f}%)'.format(
         test_loss, correct, len(loader.dataset),
         100. * correct / len(loader.dataset)))
+
 
 train_loader = torch.utils.data.DataLoader(
         datasets.MNIST(root='./input',
