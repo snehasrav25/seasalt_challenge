@@ -67,6 +67,7 @@ def test(model, device, loader, optimizer, epoch):
 
 transform1 = transforms.Compose([transforms.ToTensor()])
 main_dataset = datasets.MNIST(root='./input',
+                              train=False,
                               download=True,
                               transform=transform1)
 
