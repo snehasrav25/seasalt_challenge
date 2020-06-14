@@ -5,9 +5,7 @@ import torch.nn.functional as f
 import torch.optim as optim
 from torch.utils.data import random_split
 from torchvision import datasets, transforms
-import os
 import sys
-
 
 
 class Net(nn.Module):
@@ -73,7 +71,7 @@ main_dataset = datasets.MNIST(root='./input',
                               transform=transform1)
 
 train_datasample, test_data = random_split(main_dataset, [5000, 55000])
-if(len(sys.argv)==1 and sys.argv[0]!='Test'):
+if(len(sys.argv) == 1 and sys.argv[0] != 'Test'):
     train_loader = torch.utils.data.DataLoader(
         dataset=train_datasample,
         batch_size=64,
@@ -114,7 +112,5 @@ for epoch in range(1, 2):
 
 test(model, torch.device("cpu"), test_loader, optimizer, epoch)
 
-if(len(sys.argv)==1 and sys.argv[0]!='Test'):
+if(len(sys.argv) == 1 and sys.argv[0] != 'Test'):
     torch.save(model.state_dict(), 'output/mnist_model.pth')
-
-
