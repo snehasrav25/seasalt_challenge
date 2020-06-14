@@ -6,6 +6,7 @@ import torch.optim as optim
 from torchvision import datasets, transforms
 import sys
 
+
 class Net(nn.Module):
     """Build the network with four layers."""
 
