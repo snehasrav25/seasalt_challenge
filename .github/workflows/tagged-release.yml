@@ -4,7 +4,7 @@
 name: tagged release action
 
 on:
-  pull_request:
+  push:
     tags:
        - 'release'
 jobs:
