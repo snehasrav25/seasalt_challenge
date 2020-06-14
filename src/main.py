@@ -70,18 +70,19 @@ main_dataset = datasets.MNIST(root='./input',
                               download=True,
                               transform=transform1)
 
-train_datasample, test_data = random_split(main_dataset, [5000, 55000])
+train_datasample, test_data = random_split(main_dataset, [100, 59900])
+minimumTrainSample,minimumTestSample=random_split(train_datasample,[50,50])
 if(len(sys.argv) == 1 and sys.argv[0] != 'Test'):
     train_loader = torch.utils.data.DataLoader(
-        dataset=train_datasample,
-        batch_size=64,
+        dataset=minimumTrainSample,
+        batch_size=16,
         num_workers=0,
         shuffle=True
     )
 
     test_loader = torch.utils.data.DataLoader(
-        dataset=test_data,
-        batch_size=64,
+        dataset=minimumTestSample,
+        batch_size=16,
         num_workers=0,
         shuffle=True
     )
