@@ -35,6 +35,9 @@ def train(model, device, loader, optimizer, epoch):
     """Train the network."""
     model.train()
     for idx, (data, target) in enumerate(loader):
+        idx=idx+1
+        if idx>5 and sys.argv[0]=="Test":
+            break
         data, target = data.to(device), target.to(device)
         optimizer.zero_grad()
         output = model(data)
@@ -52,7 +55,10 @@ def test(model, device, loader, optimizer, epoch):
     test_loss = 0
     correct = 0
     with torch.no_grad():
-        for data, target in loader:
+        for idx1, data, target in loader:
+            idx1=idx1+1
+            if idx1>5 and sys.argv[0]=="Test":
+                break
             data, target = data.to(device), target.to(device)
             output = model(data)
             test_loss += f.nll_loss(output, target, reduction='sum').item()
@@ -64,39 +70,14 @@ def test(model, device, loader, optimizer, epoch):
         test_loss, correct, len(loader.dataset),
         100. * correct / len(loader.dataset)))
 
-
-transform1 = transforms.Compose([transforms.ToTensor()])
-main_dataset = datasets.MNIST(root='./input',
-                              download=True,
-                              transform=transform1)
-
-train_datasample, test_data = random_split(main_dataset, [100, 59900])
-minimum_train_sample, minimum_test_sample = random_split(train_datasample,
-                                                         [50, 50])
-if(len(sys.argv) == 1 and sys.argv[0] != 'Test'):
-    train_loader = torch.utils.data.DataLoader(
-        dataset=minimum_train_sample,
-        batch_size=16,
-        num_workers=0,
-        shuffle=True
-    )
-
-    test_loader = torch.utils.data.DataLoader(
-        dataset=minimum_test_sample,
-        batch_size=16,
-        num_workers=0,
-        shuffle=True
-    )
-
-else:
-    train_loader = torch.utils.data.DataLoader(
+train_loader = torch.utils.data.DataLoader(
         datasets.MNIST(root='./input',
                        train=True,
                        download=True,
                        transform=transforms.Compose([
                            transforms.ToTensor()])),
         batch_size=16, shuffle=True)
-    test_loader = torch.utils.data.DataLoader(
+test_loader = torch.utils.data.DataLoader(
         datasets.MNIST('./input',
                        train=False,
                        download=True,
