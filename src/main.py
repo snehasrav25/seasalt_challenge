@@ -5,6 +5,9 @@ import torch.nn.functional as f
 import torch.optim as optim
 from torch.utils.data import random_split
 from torchvision import datasets, transforms
+import os
+import sys
+
 
 
 class Net(nn.Module):
@@ -69,21 +72,38 @@ main_dataset = datasets.MNIST(root='./input',
                               download=True,
                               transform=transform1)
 
-train_data, test_data = random_split(main_dataset, [55000, 5000])
+train_datasample, test_data = random_split(main_dataset, [5000, 55000])
+if(len(sys.argv)==1 and sys.argv[0]!='Test'):
+    train_loader = torch.utils.data.DataLoader(
+        dataset=train_datasample,
+        batch_size=64,
+        num_workers=0,
+        shuffle=True
+    )
 
-train_loader = torch.utils.data.DataLoader(
-    dataset=train_data,
-    batch_size=64,
-    num_workers=0,
-    shuffle=True
-)
+    test_loader = torch.utils.data.DataLoader(
+        dataset=test_data,
+        batch_size=64,
+        num_workers=0,
+        shuffle=True
+    )
 
-test_loader = torch.utils.data.DataLoader(
-    dataset=test_data,
-    batch_size=64,
-    num_workers=0,
-    shuffle=True
-)
+else:
+    train_loader = torch.utils.data.DataLoader(
+        datasets.MNIST(root='./input',
+                       train=True,
+                       download=True,
+                       transform=transforms.Compose([
+                           transforms.ToTensor()])),
+        batch_size=16, shuffle=True)
+    test_loader = torch.utils.data.DataLoader(
+        datasets.MNIST('./input',
+                       train=False,
+                       download=True,
+                       transform=transforms.Compose([
+                           transforms.ToTensor()])),
+        batch_size=16, shuffle=True)
+
 
 model = Net().to(torch.device("cpu"))
 
@@ -92,5 +112,9 @@ optimizer = optim.SGD(model.parameters(), lr=0.01)
 for epoch in range(1, 2):
     train(model, torch.device("cpu"), train_loader, optimizer, epoch)
 
-test(model, torch.device("cpu"), train_loader, optimizer, epoch)
-torch.save(model.state_dict(), 'output/mnist_model.pth')
+test(model, torch.device("cpu"), test_loader, optimizer, epoch)
+
+if(len(sys.argv)==1 and sys.argv[0]!='Test'):
+    torch.save(model.state_dict(), 'output/mnist_model.pth')
+
+
