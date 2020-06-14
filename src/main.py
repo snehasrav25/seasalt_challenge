@@ -35,7 +35,8 @@ def train(model, device, loader, optimizer, epoch):
     model.train()
     for idx, (data, target) in enumerate(loader):
         idx = idx+1
-        if idx > 5 and sys.argv[0] == "Test":
+        if idx > 20 and sys.argv[0] == "Test":
+            print("Hello Break here Train")
             break
         data, target = data.to(device), target.to(device)
         optimizer.zero_grad()
@@ -57,7 +58,8 @@ def test(model, device, loader, optimizer, epoch):
     with torch.no_grad():
         for data, target in loader:
             idx1 = idx1+1
-            if idx1 > 5 and sys.argv[0] == "Test":
+            if idx1 > 20 and sys.argv[0] == "Test":
+                print("Hello Break here Test")
                 break
             data, target = data.to(device), target.to(device)
             output = model(data)
