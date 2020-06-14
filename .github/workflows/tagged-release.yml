@@ -4,9 +4,8 @@
 name: Python application
 
 on:
-  push:
-    #tags:
-       #- 'release'
+    tags:
+       - 'release'
 jobs:
   run:
     runs-on: ubuntu-latest
