@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.nn.functional as f
 import torch.optim as optim
 from torchvision import datasets, transforms
-
+import sys
 
 class Net(nn.Module):
     """Build the network with four layers."""
@@ -34,7 +34,7 @@ def train(model, device, loader, optimizer, epoch):
     model.train()
     for idx, (data, target) in enumerate(loader):
         idx = idx+1
-        if idx > 20:
+        if idx > 20 and sys.argv[0] == 'Test':
             print("Hello Break here Train")
             break
         data, target = data.to(device), target.to(device)
@@ -57,7 +57,7 @@ def test(model, device, loader, optimizer, epoch):
     with torch.no_grad():
         for data, target in loader:
             idx1 = idx1+1
-            if idx1 > 20:
+            if idx1 > 20 and sys.argv[0] == 'Test':
                 print("Hello Break here Test")
                 break
             data, target = data.to(device), target.to(device)
