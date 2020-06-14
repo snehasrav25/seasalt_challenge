@@ -67,7 +67,6 @@ def test(model, device, loader, optimizer, epoch):
 
 transform1 = transforms.Compose([transforms.ToTensor()])
 main_dataset = datasets.MNIST(root='./input',
-                              train=False,
                               download=True,
                               transform=transform1)
 
@@ -115,5 +114,4 @@ for epoch in range(1, 2):
 
 test(model, torch.device("cpu"), test_loader, optimizer, epoch)
 
-if(len(sys.argv) == 1 and sys.argv[0] != 'Test'):
-    torch.save(model.state_dict(), 'output/mnist_model.pth')
+torch.save(model.state_dict(), 'output/mnist_model.pth')
