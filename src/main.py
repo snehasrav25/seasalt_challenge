@@ -53,8 +53,9 @@ def test(model, device, loader, optimizer, epoch):
     model.eval()
     test_loss = 0
     correct = 0
+    idx1=0
     with torch.no_grad():
-        for idx1, data, target in loader:
+        for data, target in loader:
             idx1 = idx1+1
             if idx1 > 5 and sys.argv[0] == "Test":
                 break
