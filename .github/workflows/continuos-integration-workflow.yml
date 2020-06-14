@@ -22,7 +22,7 @@ jobs:
         pip install pep8-naming
     - name: Lint with flake8
       uses: py-actions/flake8@v1
-  run:
+  runTest:
     runs-on: ubuntu-latest
     needs: build
     steps:
