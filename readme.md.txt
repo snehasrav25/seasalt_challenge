@@ -22,4 +22,3 @@ on any pull request which is tagged as release a new github action is triggered 
 all the python dependencies from requirements.txt file , after that we will run main.py file 
 3. Python program is run with all data in the dataset and resulting model is saved to s3 using "jakejarvis/s3-sync-action@master"
 
-
