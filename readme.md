@@ -1,4 +1,4 @@
-* This repository contains Two workflows.One workflow is to triggered for every github action to valiadate whether the model 
+* This repository contains Two workflows.One workflow is to triggered for every github action to valiadate whether the model
 runs without error and also checks for any flake 8 erros.
 * Another workflow is triggered  for tagged release and creates a model for entire data set and uploads resultant model to s3.
 * I created an amazon account and created in a s3 container to store the model.
