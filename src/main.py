@@ -36,7 +36,6 @@ def train(model, device, loader, optimizer, epoch):
     for idx, (data, target) in enumerate(loader):
         idx = idx+1
         if idx > 20 and len(sys.argv) == 2 and sys.argv[1] == 'Test':
-            print("Hello Break here Train")
             break
         data, target = data.to(device), target.to(device)
         optimizer.zero_grad()
@@ -59,7 +58,6 @@ def test(model, device, loader, optimizer, epoch):
         for data, target in loader:
             idx1 = idx1+1
             if idx1 > 20 and len(sys.argv) == 2 and sys.argv[1] == 'Test':
-                print("Hello Break here Test")
                 break
             data, target = data.to(device), target.to(device)
             output = model(data)
